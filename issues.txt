@@ -1,3 +1,17 @@
+Error:Android Source Generator: Error: Can't find bundle for base name messages.AndroidJpsBundle, locale en_US
+java.util.MissingResourceException: Can't find bundle for base name messages.AndroidJpsBundle, locale en_US
+	at java.util.ResourceBundle.throwMissingResourceException(ResourceBundle.java:1573)
+	at java.util.ResourceBundle.getBundleImpl(ResourceBundle.java:1396)
+	at java.util.ResourceBundle.getBundle(ResourceBundle.java:782)
+...
+
+FIX: convert project to Gradle:
+Right click on your project and open up Module Settings
+Click facets.
+Add Android-Gradle and apply.
+Remove "Adnroid" (leave only Android-Gradle)
+
+
 Error:A problem occurred configuring project ':app'.
 > Failed to find target with hash string 'android-26' in: C:\AndroidSDK
 
@@ -37,3 +51,9 @@ systemProp.http.proxyPort=8080
 
 systemProp.https.proxyHost=ua-is-proxy.ee.playtech.corp
 systemProp.https.proxyPort=8080
+
+
+
+>android default activity not found
+FIX: If you see that error occur after upgrading versions of IntelliJ IDEA or Android Studio, or after Generating a new APK, you may need to refresh the IDE's cache.
+File -> Invalidate Caches / Restart...
