@@ -1,0 +1,39 @@
+Error:A problem occurred configuring project ':app'.
+> Failed to find target with hash string 'android-26' in: C:\AndroidSDK
+
+FIX: install SDK and build tools. Settings->System Settings->Android SDK: set the latest Android 8.0 from the list and install it
+
+
+Error:Failed to complete Gradle execution.
+
+Cause:
+Supplied javaHome is not a valid folder. You supplied: C:\Program Files\Java\jdk1.8.0_92
+
+FIX: played with settings of SDK (try to set JDK there and back)
+
+
+Error:A problem occurred configuring project ':app'.
+> Failed to find Build Tools revision 26.0.2
+
+FIX: You should install Android SDK Build Tools 26.0.2 via Android SDK. Don't forget to check "Show Packages Details".
+
+
+Error:Could not resolve all files for configuration ':app:debugCompileClasspath'.
+> Could not resolve com.android.support:appcompat-v7:26.1.0.
+  Required by:
+      project :app
+   > Could not resolve com.android.support:appcompat-v7:26.1.0.
+      > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/support/appcompat-v7/26.1.0/appcompat-v7-26.1.0.pom'.
+         > Could not GET 'https://dl.google.com/dl/android/maven2/com/android/support/appcompat-v7/26.1.0/appcompat-v7-26.1.0.pom'.
+            > Connect to dl.google.com:443 [dl.google.com/172.217.16.14] failed: Connection timed out: connect
+   > Could not resolve com.android.support:appcompat-v7:26.1.0.
+      > Could not get resource 'https://jcenter.bintray.com/com/android/support/appcompat-v7/26.1.0/appcompat-v7-26.1.0.pom'.
+         > Could not GET 'https://jcenter.bintray.com/com/android/support/appcompat-v7/26.1.0/appcompat-v7-26.1.0.pom'.
+            > Connect to jcenter.bintray.com:443 [jcenter.bintray.com/159.122.18.156] failed: Connection timed out: connect
+			
+FIX: add to gradle.properties
+systemProp.http.proxyHost=ua-is-proxy.ee.playtech.corp
+systemProp.http.proxyPort=8080
+
+systemProp.https.proxyHost=ua-is-proxy.ee.playtech.corp
+systemProp.https.proxyPort=8080
