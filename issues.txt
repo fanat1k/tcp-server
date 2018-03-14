@@ -15,7 +15,11 @@ Remove "Adnroid" (leave only Android-Gradle)
 Error:A problem occurred configuring project ':app'.
 > Failed to find target with hash string 'android-26' in: C:\AndroidSDK
 
-FIX: install SDK and build tools. Settings->System Settings->Android SDK: set the latest Android 8.0 from the list and install it
+FIX:
+1. add option to build.gradle:
+    android {
+        buildToolsVersion "27.0.3"
+2. install SDK and build tools. Settings->System Settings->Android SDK: set the latest Android 8.0 from the list and install it
 
 
 Error:Failed to complete Gradle execution.

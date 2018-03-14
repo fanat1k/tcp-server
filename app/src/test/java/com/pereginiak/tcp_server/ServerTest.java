@@ -1,0 +1,50 @@
+package com.pereginiak.tcp_server;
+
+import org.junit.Test;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class ServerTest {
+    private Socket socket;
+    private static final int SERVERPORT = 5555;
+    private static final String SERVER_IP = "localhost";
+
+    @Test
+    public void testClient() throws Exception {
+        new Thread(new ClientThread()).start();
+        writeToSocket("TestLine");
+    }
+
+    private void writeToSocket(String str) throws IOException, InterruptedException {
+        int i = 1;
+        while (socket == null) {
+            System.out.println("waiting for connection..." + i++);
+            Thread.sleep(1000);
+        }
+        System.out.println("write to socket");
+        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+        out.println(str);
+        //TODO(romanpe @2018-03-14): need flush?
+        out.flush();
+    }
+
+    class ClientThread implements Runnable {
+        @Override
+        public void run() {
+            try {
+                InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+                socket = new Socket(serverAddr, SERVERPORT);
+            } catch (UnknownHostException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+}

@@ -3,6 +3,7 @@ package com.pereginiak.tcp_server;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.io.*;
@@ -20,7 +21,9 @@ public class Server extends Activity {
 
     private TextView text;
 
-    public static final int SERVERPORT = 5555;
+    private static final int SERVER_PORT = 5555;
+
+    private static final String TAG = "ServerActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class Server extends Activity {
         this.serverThread.start();
     }
 
+/*
     @Override
     protected void onStop() {
         super.onStop();
@@ -44,18 +48,21 @@ public class Server extends Activity {
             e.printStackTrace();
         }
     }
+*/
 
     class ServerThread implements Runnable {
         public void run() {
-            Socket socket = null;
+            Socket socket;
             try {
-                serverSocket = new ServerSocket(SERVERPORT);
+                serverSocket = new ServerSocket(SERVER_PORT);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             while (!Thread.currentThread().isInterrupted()) {
                 try {
+                    Log.i(TAG, "serverSocket.accept()");
                     socket = serverSocket.accept();
+                    Log.i(TAG, "create a new thread for client");
                     CommunicationThread commThread = new CommunicationThread(socket);
                     new Thread(commThread).start();
                 } catch (IOException e) {
