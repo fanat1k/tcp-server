@@ -1,56 +1,51 @@
 package com.pereginiak.tcp_server;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
+import java.util.concurrent.Executors;
 
-public class Server extends Activity {
+public class SocketServer extends Service {
 
     private ServerSocket serverSocket;
 
-    Handler updateConversationHandler;
+    private static final int SERVER_PORT = 1111;
 
-    Thread serverThread = null;
+    private static final String TAG = "SocketServer";
 
-    private TextView text;
-
-    private static final int SERVER_PORT = 5555;
-
-    private static final String TAG = "ServerActivity";
-
+    //TODO(kasian @2018-03-14): moved to onStartCommand
+/*
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_server);
-
-        text = (TextView) findViewById(R.id.text2);
-
-        updateConversationHandler = new Handler();
-
+    public void onCreate() {
         this.serverThread = new Thread(new ServerThread());
         this.serverThread.start();
     }
-
-/*
-    @Override
-    protected void onStop() {
-        super.onStop();
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 */
 
-    class ServerThread implements Runnable {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.v(TAG,"onStartCommand" );
+
+        Executors.newSingleThreadExecutor().submit(new ServerThread());
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.v(TAG,"onBind" );
+        //TODO(kasian @2018-03-14):
+        return null;
+    }
+
+    private class ServerThread implements Runnable {
         public void run() {
             Socket socket;
             try {
@@ -62,9 +57,9 @@ public class Server extends Activity {
                 try {
                     Log.i(TAG, "serverSocket.accept()");
                     socket = serverSocket.accept();
-                    Log.i(TAG, "create a new thread for client");
-                    CommunicationThread commThread = new CommunicationThread(socket);
-                    new Thread(commThread).start();
+
+                    Log.i(TAG, "new CommunicationThread(socket)");
+                    Executors.newSingleThreadExecutor().submit(new CommunicationThread(socket));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -72,7 +67,7 @@ public class Server extends Activity {
         }
     }
 
-    class CommunicationThread implements Runnable {
+    private class CommunicationThread implements Runnable {
         private Socket clientSocket;
         private BufferedReader input;
 
@@ -93,10 +88,13 @@ public class Server extends Activity {
                     if (read == null ){
                         Thread.currentThread().interrupt();
                     }else{
+                        String msg = "received from client: " + read;
+                        Log.i(TAG, msg);
                         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                        out.write("TstMsg");
-                        updateConversationHandler.post(new updateUIThread(read));
-
+                        out.write("From server: " + msg);
+                        out.newLine();
+                        out.flush();
+                        //updateConversationHandler.post(new updateUIThread(read));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -106,6 +104,8 @@ public class Server extends Activity {
 
     }
 
+
+/*
     class updateUIThread implements Runnable {
         private String msg;
 
@@ -118,4 +118,5 @@ public class Server extends Activity {
             text.setText("Client Says: "+ msg + new Date() + "\n");
         }
     }
+*/
 }

@@ -10,9 +10,9 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ServerTest {
+public class SocketServerTest {
     private Socket socket;
-    private static final int SERVERPORT = 5555;
+    private static final int SERVER_PORT = 1111;
     private static final String SERVER_IP = "localhost";
 
     @Test
@@ -39,7 +39,7 @@ public class ServerTest {
         public void run() {
             try {
                 InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-                socket = new Socket(serverAddr, SERVERPORT);
+                socket = new Socket(serverAddr, SERVER_PORT);
             } catch (UnknownHostException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {

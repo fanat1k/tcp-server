@@ -61,3 +61,14 @@ systemProp.https.proxyPort=8080
 >android default activity not found
 FIX: If you see that error occur after upgrading versions of IntelliJ IDEA or Android Studio, or after Generating a new APK, you may need to refresh the IDE's cache.
 File -> Invalidate Caches / Restart...
+
+
+# port forwarding
+C:\AndroidSDK\platform-tools>adb.exe forward tcp:1111 tcp:1111
+
+# this forwarding does not work :(
+telnet localhost 5554
+auth <c:\Users\kasian\.emulator_console_auth_token>
+redir list
+redir add tcp:1111:1111
+# redir del tcp:1111
