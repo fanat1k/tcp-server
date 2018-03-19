@@ -19,15 +19,6 @@ public class SocketServer extends Service {
 
     private static final String TAG = "SocketServer";
 
-    //TODO(kasian @2018-03-14): moved to onStartCommand
-/*
-    @Override
-    public void onCreate() {
-        this.serverThread = new Thread(new ServerThread());
-        this.serverThread.start();
-    }
-*/
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(TAG,"onStartCommand" );
@@ -37,11 +28,23 @@ public class SocketServer extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Log.v(TAG,"onDestroy" );
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         Log.v(TAG,"onBind" );
-        //TODO(kasian @2018-03-14):
+        //TODO(kasian @2018-03-14):need?
         return null;
     }
 
@@ -83,18 +86,19 @@ public class SocketServer extends Service {
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    String read = input.readLine();
+                    String inputLine = input.readLine();
 
-                    if (read == null ){
+                    if (inputLine == null ){
                         Thread.currentThread().interrupt();
                     }else{
-                        String msg = "received from client: " + read;
+                        String msg = "received from client: " + inputLine;
                         Log.i(TAG, msg);
                         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                         out.write("From server: " + msg);
                         out.newLine();
                         out.flush();
-                        //updateConversationHandler.post(new updateUIThread(read));
+
+                        sendBroadcastMessage(inputLine);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -104,19 +108,8 @@ public class SocketServer extends Service {
 
     }
 
-
-/*
-    class updateUIThread implements Runnable {
-        private String msg;
-
-        public updateUIThread(String str) {
-            this.msg = str;
-        }
-
-        @Override
-        public void run() {
-            text.setText("Client Says: "+ msg + new Date() + "\n");
-        }
+    private void sendBroadcastMessage(String inputLine) {
+        Intent broadcastIntent = SocketServerMainActivity.getBroadcastIntent(inputLine);
+        sendBroadcast(broadcastIntent);
     }
-*/
 }

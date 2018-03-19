@@ -5,6 +5,23 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.pereginiak.tcp_server.MainActivity">
+        tools:context="com.pereginiak.tcp_server.SocketServerMainActivity">
 
+    <EditText
+            android:layout_width="173dp"
+            android:layout_height="43dp"
+            android:inputType="textPersonName"
+            android:text="type any text"
+            android:ems="10"
+            android:id="@+id/broadcastText"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="32dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"/>
+    <Button
+            android:text="Send Broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sendBroadcast"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="32dp"
+            style="@style/Widget.AppCompat.Button" android:onClick="sendBroadcast" android:layout_marginLeft="16dp"
+            app:layout_constraintStart_toEndOf="@+id/broadcastText"/>
 </android.support.constraint.ConstraintLayout>
