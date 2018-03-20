@@ -64,7 +64,7 @@ File -> Invalidate Caches / Restart...
 
 
 # port forwarding
-C:\AndroidSDK\platform-tools>adb.exe forward tcp:1111 tcp:1111
+C:\AndroidSDK\platform-tools\adb.exe forward tcp:1111 tcp:1111C:\AndroidSDK\platform-tools\adb.exe forward tcp:1111 tcp:1111
 
 # this forwarding does not work :(
 telnet localhost 5554
@@ -72,3 +72,10 @@ auth <c:\Users\kasian\.emulator_console_auth_token>
 redir list
 redir add tcp:1111:1111
 # redir del tcp:1111
+
+
+# Install APK to Android
+Copy the apk file to platform-tools in android-sdk linux folder.
+Open Terminal and navigate to platform-tools folder in android-sdk.
+Then Execute this command -
+./adb install FileName.apk
