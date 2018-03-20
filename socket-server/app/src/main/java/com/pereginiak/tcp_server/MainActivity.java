@@ -82,9 +82,12 @@ public class MainActivity extends Activity {
         localBroadcastListener = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.i(TAG, "onReceiveLocalBroadcast");
+                String inputMessage = intent.getStringExtra(Constants.EXTRA_MESSAGE);
+                Log.i(TAG, "onReceiveLocalBroadcast: " + inputMessage);
+
                 TextView outputView = (TextView) findViewById(R.id.outputView);
-                outputView.setText("123");
+                outputView.append("\n");
+                outputView.append(inputMessage);
             }
         };
 
