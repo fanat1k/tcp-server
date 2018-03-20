@@ -79,3 +79,5 @@ Copy the apk file to platform-tools in android-sdk linux folder.
 Open Terminal and navigate to platform-tools folder in android-sdk.
 Then Execute this command -
 ./adb install FileName.apk
+
+adb -e install -r yourapp.apk	// -e - use emulator (if real device is connected); -r - reinstall if app is already installed
