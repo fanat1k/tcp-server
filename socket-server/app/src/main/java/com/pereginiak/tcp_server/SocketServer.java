@@ -43,8 +43,6 @@ public class SocketServer extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.v(TAG,"onBind" );
-        //TODO(kasian @2018-03-14):need?
         return null;
     }
 
@@ -109,7 +107,7 @@ public class SocketServer extends Service {
     }
 
     private void sendBroadcastMessage(String inputLine) {
-        Intent broadcastIntent = SocketServerMainActivity.getBroadcastIntent(inputLine);
+        Intent broadcastIntent = MainActivity.getBroadcastIntent(inputLine);
         sendBroadcast(broadcastIntent);
     }
 }

@@ -80,4 +80,4 @@ Open Terminal and navigate to platform-tools folder in android-sdk.
 Then Execute this command -
 ./adb install FileName.apk
 
-adb -e install -r yourapp.apk	// -e - use emulator (if real device is connected); -r - reinstall if app is already installed
+adb -e install -r yourapp.apk	// -e - use emulator (if real device is connected also); -r - reinstall if app is already installed
