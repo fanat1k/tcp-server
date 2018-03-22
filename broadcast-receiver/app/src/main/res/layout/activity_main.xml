@@ -8,10 +8,11 @@
         tools:context="com.pereginiak.broadcastreceiver.ReceiverMainActivity">
 
     <TextView
-            android:text="TextView"
-            android:layout_width="230dp"
-            android:layout_height="407dp"
-            android:id="@+id/outputText" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp"/>
+            android:layout_width="348dp"
+            android:layout_height="448dp"
+            android:id="@+id/outputView" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            android:text="Listening broadcasts with topic 'com.e1c.mobile.PushNotificationReceiver'..." app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="24dp"/>
+
 </android.support.constraint.ConstraintLayout>

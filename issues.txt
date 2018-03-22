@@ -64,7 +64,8 @@ File -> Invalidate Caches / Restart...
 
 
 # port forwarding
-C:\AndroidSDK\platform-tools\adb.exe forward tcp:1111 tcp:1111C:\AndroidSDK\platform-tools\adb.exe forward tcp:1111 tcp:1111
+C:\AndroidSDK\platform-tools\adb.exe forward tcp:1111 tcp:1111
+
 
 # this forwarding does not work :(
 telnet localhost 5554
@@ -81,3 +82,7 @@ Then Execute this command -
 ./adb install FileName.apk
 
 adb -e install -r yourapp.apk	// -e - use emulator (if real device is connected also); -r - reinstall if app is already installed
+
+http://94.100.221.227:82/mt/
+
+topic:com.e1c.mobile.PushNOtificationReceiver

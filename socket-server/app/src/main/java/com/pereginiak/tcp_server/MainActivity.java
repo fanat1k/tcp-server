@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 public class MainActivity extends Activity {
 
     private BroadcastListener broadcastListener;
@@ -21,9 +23,9 @@ public class MainActivity extends Activity {
 
     private static final String EXTRA_MESSAGE = "com.pereginiak.tcp_server.MESSAGE";
 
-    private static final String BROADCAST_NOTIFICATION = "com.pereginiak.tcp_server.BROADCAST_NOTIFICATION";
+    private static final String OUTGOING_NOTIFICATION = "com.e1c.mobile.PushNotificationReceiver";
 
-    private static final String INCOMING_BROADCAST = "com.pereginiak.tcp_server.INCOMING_BROADCAST";
+    private static final String INCOMING_BROADCAST = "com.e1c.mobile.PushNotificationReceiver";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,19 @@ public class MainActivity extends Activity {
 
         registerBroadcastReceiver();
         registerLocalBroadcastReceiver();
+
+        //showLogcat();
+        //startWebServer();
+    }
+
+    private void startWebServer() {
+        WebServerTest webServer = new WebServerTest(8090);
+        try {
+            webServer.start();
+        } catch (IOException e) {
+            Log.i(TAG, "ERROR:" + e);
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -56,10 +71,11 @@ public class MainActivity extends Activity {
 
         Log.i(TAG, "sendBroadcast: " + broadcastIntent);
         sendBroadcast(broadcastIntent);
+        showLog("send broadcast:" + broadcastIntent);
     }
 
     public static Intent getBroadcastIntent(String message) {
-        Intent intent = new Intent(BROADCAST_NOTIFICATION);
+        Intent intent = new Intent(OUTGOING_NOTIFICATION);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.putExtra(EXTRA_MESSAGE, message);
 
@@ -70,9 +86,8 @@ public class MainActivity extends Activity {
         Log.i(TAG, "registerBroadcastReceiver");
 
         broadcastListener = new BroadcastListener();
-        //TODO(kasian @2018-03-20): set INCOMING_BROADCAST
-        //IntentFilter filter = new IntentFilter(INCOMING_BROADCAST);
-        IntentFilter filter = new IntentFilter(BROADCAST_NOTIFICATION);
+        IntentFilter filter = new IntentFilter(INCOMING_BROADCAST);
+
         this.registerReceiver(broadcastListener, filter);
     }
 
@@ -85,13 +100,36 @@ public class MainActivity extends Activity {
                 String inputMessage = intent.getStringExtra(Constants.EXTRA_MESSAGE);
                 Log.i(TAG, "onReceiveLocalBroadcast: " + inputMessage);
 
-                TextView outputView = (TextView) findViewById(R.id.outputView);
-                outputView.append("\n");
-                outputView.append(inputMessage);
+                showLog("receive broadcast:" + inputMessage);
             }
         };
 
         IntentFilter filter = new IntentFilter(Constants.LOCAL_BROADCAST_NOTIFICATION);
         this.registerReceiver(localBroadcastListener, filter);
     }
+
+    private void showLog(String inputMessage) {
+        TextView outputView = (TextView) findViewById(R.id.outputView);
+        outputView.append("\n");
+        outputView.append(inputMessage);
+    }
+
+/*
+    private void showLogcat() {
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            StringBuilder log=new StringBuilder();
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                log.append(line);
+            }
+            TextView tv = (TextView)findViewById(R.id.outputView);
+            tv.setText(log.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+*/
 }
