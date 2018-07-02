@@ -1,3 +1,7 @@
+1. think about security
+	- web requests to WebServer;
+	- 
+	
 Error:Android Source Generator: Error: Can't find bundle for base name messages.AndroidJpsBundle, locale en_US
 java.util.MissingResourceException: Can't find bundle for base name messages.AndroidJpsBundle, locale en_US
 	at java.util.ResourceBundle.throwMissingResourceException(ResourceBundle.java:1573)
@@ -65,6 +69,7 @@ File -> Invalidate Caches / Restart...
 
 # port forwarding
 C:\AndroidSDK\platform-tools\adb.exe forward tcp:1111 tcp:1111
+C:\AndroidSDK\platform-tools\adb.exe forward tcp:8090 tcp:8090
 
 
 # this forwarding does not work :(
@@ -86,3 +91,7 @@ adb -e install -r yourapp.apk	// -e - use emulator (if real device is connected 
 http://94.100.221.227:82/mt/
 
 topic:com.e1c.mobile.PushNOtificationReceiver
+
+
+fe80::ff:fe44:5566%wlan0
+

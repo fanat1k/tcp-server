@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainActivity extends Activity {
 
@@ -34,14 +36,45 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+/*
         Intent socketServiceIntent = new Intent(this, SocketServer.class);
         startService(socketServiceIntent);
 
         registerBroadcastReceiver();
         registerLocalBroadcastReceiver();
+*/
 
         //showLogcat();
         //startWebServer();
+    }
+
+    public void startAnotherApp (View view) {
+
+/*
+        PackageManager packageManager = getPackageManager();
+        List activities = packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        boolean isIntentSafe = activities.size() > 0;
+        Intent intent = new Intent(Intent.ACTION_MAIN, );
+*/
+
+//TODO(kasian @2018-06-24): working example
+/*
+        PackageManager pm = getPackageManager();
+        Intent intent = pm.getLaunchIntentForPackage("com.pereginiak.gateway1c");
+        if (intent == null) {
+            Log.i(TAG, "Application is not installed:" + intent);
+        } else {
+            startActivity(intent);
+        }
+*/
+
+/*
+        Does not work by some means:(
+        Intent intent = new Intent(Intent.ACTION_RUN);
+        intent.setComponent(new ComponentName("com.pereginiak.gateway1c","com.pereginiak.gateway1c.MainActivity"));
+        startActivity(intent);
+*/
     }
 
     private void startWebServer() {
@@ -114,7 +147,6 @@ public class MainActivity extends Activity {
         outputView.append(inputMessage);
     }
 
-/*
     private void showLogcat() {
         try {
             Process process = Runtime.getRuntime().exec("logcat -d");
@@ -131,5 +163,4 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }
-*/
 }
