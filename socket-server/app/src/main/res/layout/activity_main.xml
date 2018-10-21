@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/sendBroadcast"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="32dp"
-            style="@style/Widget.AppCompat.Button" android:onClick="sendBroadcast" android:layout_marginLeft="16dp"
+            style="@style/Widget.AppCompat.Button" android:onClick="startAnotherApp" android:layout_marginLeft="16dp"
             app:layout_constraintStart_toEndOf="@+id/broadcastText"/>
     <TextView
             android:layout_width="348dp"

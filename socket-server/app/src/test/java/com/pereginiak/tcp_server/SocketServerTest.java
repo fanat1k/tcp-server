@@ -15,6 +15,29 @@ public class SocketServerTest {
     private static final int SERVER_PORT = 1111;
     private static final String SERVER_IP = "localhost";
 
+    private class TestObj {
+        private int number;
+
+        public TestObj(int number) {
+            this.number = number;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            TestObj testObj = (TestObj) o;
+
+            return number == testObj.number;
+        }
+
+        @Override
+        public int hashCode() {
+            return number % 2;
+        }
+    }
+
     @Test
     public void testClient() throws Exception {
         new Thread(new ClientThread()).start();

@@ -1,10 +1,8 @@
 package com.pereginiak.tcp_server;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.AlertDialog;
+import android.content.*;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +47,10 @@ public class MainActivity extends Activity {
     }
 
     public void startAnotherApp (View view) {
+        Intent intent = new Intent();
+        //intent.setClassName("com.pereginiak.gateway1c.nfc", "com.pereginiak.gateway1c.nfc.NfcReader");
+        intent.setClassName("com.pereginiak.cardscanner", "com.pereginiak.cardscanner.CardScannerActivity");
+        startActivityForResult(intent, 1);
 
 /*
         PackageManager packageManager = getPackageManager();
@@ -63,7 +65,7 @@ public class MainActivity extends Activity {
         PackageManager pm = getPackageManager();
         Intent intent = pm.getLaunchIntentForPackage("com.pereginiak.gateway1c");
         if (intent == null) {
-            Log.i(TAG, "Application is not installed:" + intent);
+            Log.intent(TAG, "Application is not installed:" + intent);
         } else {
             startActivity(intent);
         }
@@ -75,6 +77,20 @@ public class MainActivity extends Activity {
         intent.setComponent(new ComponentName("com.pereginiak.gateway1c","com.pereginiak.gateway1c.MainActivity"));
         startActivity(intent);
 */
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("result");
+                showAlert(result);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                showAlert("Cancelled");
+            }
+        }
     }
 
     private void startWebServer() {
@@ -139,6 +155,19 @@ public class MainActivity extends Activity {
 
         IntentFilter filter = new IntentFilter(Constants.LOCAL_BROADCAST_NOTIFICATION);
         this.registerReceiver(localBroadcastListener, filter);
+    }
+
+    private void showAlert(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Response");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     private void showLog(String inputMessage) {
